@@ -1,5 +1,6 @@
 -- name: CreateVendors :one
 INSERT INTO vendors (
+    vendor_id,
     vendor_name,
     contact_name,
     product_type,
@@ -12,17 +13,17 @@ INSERT INTO vendors (
     $3,
     $4,
     $5,
-    $6
+    $6,
+    $7
 ) RETURNING *;
 
 
--- name: GetVendorsByProductType :many
+-- name: GetVendorsList :many
 SELECT
     *
 FROM
-    vendors
-WHERE
-    product_type = $1;
+    vendors;
+
 
 -- name: GetVendorsByStatus :many
 SELECT
@@ -41,7 +42,7 @@ SET
 WHERE
     vendor_id = $1 RETURNING *;
 
--- name: UpdateVendorData :one
+-- name: UpdateVendor :one
 UPDATE
     vendors
 SET

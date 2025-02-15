@@ -33,7 +33,7 @@ FROM
 WHERE 
     vendor_id = $1;
 
--- name: UpdateProductDetail :one
+-- name: UpdateProduct :one
 UPDATE products
 SET
     name = COALESCE($2,name),

@@ -15,7 +15,7 @@ INSERT INTO product_variants (
     $6
 ) RETURNING *;
 
--- name: GetProductVariantsByPvid :many
+-- name: GetProductVariantsByPvid :one
 SELECT 
     * 
 FROM 
@@ -50,7 +50,7 @@ SET
     status = COALESCE($6, status),
     updated_at = NOW()
 WHERE 
-    pv_id = $1;
+    pv_id = $1 RETURNING *;
 
 -- name: DeleteProductVariantsByPvid :exec
 DELETE FROM 
