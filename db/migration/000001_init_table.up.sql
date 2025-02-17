@@ -37,7 +37,7 @@ CREATE TABLE "product_images" (
 CREATE TABLE "inventory_levels" (
   "inventory_id" UUID PRIMARY KEY,
   "product_id" VARCHAR(12) NOT NULL,
-  "pv_id" VARCHAR(12),
+  "pv_id" VARCHAR(12) NOT NULL,
   "stock" INT NOT NULL,
   "updated_at" TIMESTAMP(0) NOT NULL DEFAULT NOW()
 );
@@ -45,7 +45,7 @@ CREATE TABLE "inventory_levels" (
 CREATE TABLE "inventory_adjustments" (
   "adjustment_id" UUID PRIMARY KEY NOT NULL,
   "product_id" VARCHAR(12) NOT NULL,
-  "pv_id" VARCHAR(12),
+  "pv_id" VARCHAR(12) NOT NULL,
   "adjustment_type" VARCHAR NOT NULL,
   "quantity" INT NOT NULL,
   "reason" VARCHAR NOT NULL,

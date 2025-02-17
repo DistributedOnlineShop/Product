@@ -1,5 +1,6 @@
 -- name: CreateInventoryAdjustments :one
 INSERT INTO inventory_adjustments (
+    adjustment_id,
     product_id,
     pv_id,
     adjustment_type,
@@ -10,10 +11,11 @@ INSERT INTO inventory_adjustments (
     $2,
     $3,
     $4,
-    $5
+    $5,
+    $6
 ) RETURNING *;
 
--- name: GetInventoryAdjustmentsByAdjustmentId :one
+-- name: GetInventoryAdjustmentsByAdjustmentById :one
 SELECT 
     * 
 FROM 

@@ -194,16 +194,11 @@ SELECT
 FROM 
     product_images 
 WHERE 
-    pi_id = $1 AND is_primary = $2
+    is_primary = $1
 `
 
-type GetProductImagePrimaryParams struct {
-	PiID      string      `json:"pi_id"`
-	IsPrimary pgtype.Bool `json:"is_primary"`
-}
-
-func (q *Queries) GetProductImagePrimary(ctx context.Context, arg GetProductImagePrimaryParams) ([]ProductImage, error) {
-	rows, err := q.db.Query(ctx, getProductImagePrimary, arg.PiID, arg.IsPrimary)
+func (q *Queries) GetProductImagePrimary(ctx context.Context, isPrimary pgtype.Bool) ([]ProductImage, error) {
+	rows, err := q.db.Query(ctx, getProductImagePrimary, isPrimary)
 	if err != nil {
 		return nil, err
 	}

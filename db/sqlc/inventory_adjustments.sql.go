@@ -9,11 +9,11 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createInventoryAdjustments = `-- name: CreateInventoryAdjustments :one
 INSERT INTO inventory_adjustments (
+    adjustment_id,
     product_id,
     pv_id,
     adjustment_type,
@@ -24,20 +24,23 @@ INSERT INTO inventory_adjustments (
     $2,
     $3,
     $4,
-    $5
+    $5,
+    $6
 ) RETURNING adjustment_id, product_id, pv_id, adjustment_type, quantity, reason, created_at
 `
 
 type CreateInventoryAdjustmentsParams struct {
-	ProductID      string      `json:"product_id"`
-	PvID           pgtype.Text `json:"pv_id"`
-	AdjustmentType string      `json:"adjustment_type"`
-	Quantity       int32       `json:"quantity"`
-	Reason         string      `json:"reason"`
+	AdjustmentID   uuid.UUID `json:"adjustment_id"`
+	ProductID      string    `json:"product_id"`
+	PvID           string    `json:"pv_id"`
+	AdjustmentType string    `json:"adjustment_type"`
+	Quantity       int32     `json:"quantity"`
+	Reason         string    `json:"reason"`
 }
 
 func (q *Queries) CreateInventoryAdjustments(ctx context.Context, arg CreateInventoryAdjustmentsParams) (InventoryAdjustment, error) {
 	row := q.db.QueryRow(ctx, createInventoryAdjustments,
+		arg.AdjustmentID,
 		arg.ProductID,
 		arg.PvID,
 		arg.AdjustmentType,
@@ -57,7 +60,7 @@ func (q *Queries) CreateInventoryAdjustments(ctx context.Context, arg CreateInve
 	return i, err
 }
 
-const getInventoryAdjustmentsByAdjustmentId = `-- name: GetInventoryAdjustmentsByAdjustmentId :one
+const getInventoryAdjustmentsByAdjustmentById = `-- name: GetInventoryAdjustmentsByAdjustmentById :one
 SELECT 
     adjustment_id, product_id, pv_id, adjustment_type, quantity, reason, created_at 
 FROM 
@@ -66,8 +69,8 @@ WHERE
     adjustment_id = $1
 `
 
-func (q *Queries) GetInventoryAdjustmentsByAdjustmentId(ctx context.Context, adjustmentID uuid.UUID) (InventoryAdjustment, error) {
-	row := q.db.QueryRow(ctx, getInventoryAdjustmentsByAdjustmentId, adjustmentID)
+func (q *Queries) GetInventoryAdjustmentsByAdjustmentById(ctx context.Context, adjustmentID uuid.UUID) (InventoryAdjustment, error) {
+	row := q.db.QueryRow(ctx, getInventoryAdjustmentsByAdjustmentById, adjustmentID)
 	var i InventoryAdjustment
 	err := row.Scan(
 		&i.AdjustmentID,
@@ -91,8 +94,8 @@ WHERE
 `
 
 type GetInventoryAdjustmentsByPvidParams struct {
-	ProductID string      `json:"product_id"`
-	PvID      pgtype.Text `json:"pv_id"`
+	ProductID string `json:"product_id"`
+	PvID      string `json:"pv_id"`
 }
 
 func (q *Queries) GetInventoryAdjustmentsByPvid(ctx context.Context, arg GetInventoryAdjustmentsByPvidParams) ([]InventoryAdjustment, error) {

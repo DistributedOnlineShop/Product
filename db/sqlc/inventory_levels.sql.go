@@ -9,29 +9,36 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const createInventoryLevels = `-- name: CreateInventoryLevels :one
 INSERT INTO inventory_levels (
+    inventory_id,
     product_id,
     pv_id,
     stock
 ) VALUES (
     $1,
     $2,
-    $3
+    $3,
+    $4
 ) RETURNING inventory_id, product_id, pv_id, stock, updated_at
 `
 
 type CreateInventoryLevelsParams struct {
-	ProductID string      `json:"product_id"`
-	PvID      pgtype.Text `json:"pv_id"`
-	Stock     int32       `json:"stock"`
+	InventoryID uuid.UUID `json:"inventory_id"`
+	ProductID   string    `json:"product_id"`
+	PvID        string    `json:"pv_id"`
+	Stock       int32     `json:"stock"`
 }
 
 func (q *Queries) CreateInventoryLevels(ctx context.Context, arg CreateInventoryLevelsParams) (InventoryLevel, error) {
-	row := q.db.QueryRow(ctx, createInventoryLevels, arg.ProductID, arg.PvID, arg.Stock)
+	row := q.db.QueryRow(ctx, createInventoryLevels,
+		arg.InventoryID,
+		arg.ProductID,
+		arg.PvID,
+		arg.Stock,
+	)
 	var i InventoryLevel
 	err := row.Scan(
 		&i.InventoryID,
@@ -75,8 +82,8 @@ WHERE
 `
 
 type GetInventoryLevelByPvidParams struct {
-	ProductID string      `json:"product_id"`
-	PvID      pgtype.Text `json:"pv_id"`
+	ProductID string `json:"product_id"`
+	PvID      string `json:"pv_id"`
 }
 
 func (q *Queries) GetInventoryLevelByPvid(ctx context.Context, arg GetInventoryLevelByPvidParams) ([]InventoryLevel, error) {

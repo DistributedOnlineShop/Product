@@ -1,12 +1,14 @@
 -- name: CreateInventoryLevels :one
 INSERT INTO inventory_levels (
+    inventory_id,
     product_id,
     pv_id,
     stock
 ) VALUES (
     $1,
     $2,
-    $3
+    $3,
+    $4
 ) RETURNING *;
 
 -- name: GetInventoryLevelByInventoryId :one

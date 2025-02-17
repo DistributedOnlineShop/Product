@@ -121,3 +121,27 @@ func GenerateRandomPVStatus() string {
 	statuses := []string{"ACTIVE", "INACTIVE", "OUT OF STOCK", "PENDING", "DISCONTINUED"}
 	return statuses[rand.IntN(len(statuses))]
 }
+
+func GenerateRandomBool() pgtype.Bool {
+	return pgtype.Bool{
+		Bool:  gofakeit.Bool(),
+		Valid: true,
+	}
+}
+
+func GenerateRandomAdjustmentTypes() string {
+	stockAdjustmentTypes := []string{
+		"MANUAL_ADJUSTMENT",
+		"STOCK_TAKE",
+		"GOODS_RECEIVED_ADJUSTMENT",
+		"DAMAGE_EXPIRED_STOCK",
+		"THEFT_LOSS",
+		"RETURN_TO_SUPPLIER",
+		"CUSTOMER_RETURNS",
+		"REPACKAGING",
+		"PRODUCTION_ASSEMBLY",
+		"PROMOTION_SAMPLE",
+	}
+
+	return stockAdjustmentTypes[rand.IntN(len(stockAdjustmentTypes))]
+}

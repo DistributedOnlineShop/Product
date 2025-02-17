@@ -12,7 +12,7 @@ import (
 type InventoryAdjustment struct {
 	AdjustmentID   uuid.UUID        `json:"adjustment_id"`
 	ProductID      string           `json:"product_id"`
-	PvID           pgtype.Text      `json:"pv_id"`
+	PvID           string           `json:"pv_id"`
 	AdjustmentType string           `json:"adjustment_type"`
 	Quantity       int32            `json:"quantity"`
 	Reason         string           `json:"reason"`
@@ -22,7 +22,7 @@ type InventoryAdjustment struct {
 type InventoryLevel struct {
 	InventoryID uuid.UUID        `json:"inventory_id"`
 	ProductID   string           `json:"product_id"`
-	PvID        pgtype.Text      `json:"pv_id"`
+	PvID        string           `json:"pv_id"`
 	Stock       int32            `json:"stock"`
 	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
 }

@@ -43,7 +43,7 @@ SELECT
 FROM 
     product_images 
 WHERE 
-    pi_id = $1 AND is_primary = $2;
+    is_primary = $1;
 
 -- name: UpdateProductImage :one
 UPDATE 

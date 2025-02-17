@@ -8,6 +8,7 @@ import (
 	"context"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Querier interface {
@@ -20,7 +21,7 @@ type Querier interface {
 	DeletProduct(ctx context.Context, productID string) error
 	DeleteProductImage(ctx context.Context, piID string) error
 	DeleteProductVariantsByPvid(ctx context.Context, pvID string) error
-	GetInventoryAdjustmentsByAdjustmentId(ctx context.Context, adjustmentID uuid.UUID) (InventoryAdjustment, error)
+	GetInventoryAdjustmentsByAdjustmentById(ctx context.Context, adjustmentID uuid.UUID) (InventoryAdjustment, error)
 	GetInventoryAdjustmentsByPvid(ctx context.Context, arg GetInventoryAdjustmentsByPvidParams) ([]InventoryAdjustment, error)
 	GetInventoryAdjustmentsByType(ctx context.Context, adjustmentType string) ([]InventoryAdjustment, error)
 	GetInventoryLevelByInventoryId(ctx context.Context, inventoryID uuid.UUID) (InventoryLevel, error)
@@ -30,7 +31,7 @@ type Querier interface {
 	GetProductImageByPiid(ctx context.Context, piID string) ([]ProductImage, error)
 	GetProductImageByProductid(ctx context.Context, productID string) ([]ProductImage, error)
 	GetProductImageByPvid(ctx context.Context, arg GetProductImageByPvidParams) ([]ProductImage, error)
-	GetProductImagePrimary(ctx context.Context, arg GetProductImagePrimaryParams) ([]ProductImage, error)
+	GetProductImagePrimary(ctx context.Context, isPrimary pgtype.Bool) ([]ProductImage, error)
 	GetProductVariantsByProductId(ctx context.Context, productID string) ([]ProductVariant, error)
 	GetProductVariantsByPvid(ctx context.Context, pvID string) (ProductVariant, error)
 	GetProductVariantsByStatus(ctx context.Context, status string) ([]ProductVariant, error)
