@@ -16,6 +16,7 @@ const createProduct = `-- name: CreateProduct :one
 INSERT INTO products (
     vendor_id,
     name,
+    category_id,
     description,
     price,
     discount,
@@ -28,13 +29,15 @@ INSERT INTO products (
     $4,
     $5,
     $6,
-    $7
-) RETURNING product_id, vendor_id, name, description, price, discount, stock, status, created_at, updated_at
+    $7,
+    $8
+) RETURNING product_id, vendor_id, name, category_id, description, price, discount, stock, status, created_at, updated_at
 `
 
 type CreateProductParams struct {
 	VendorID    uuid.UUID      `json:"vendor_id"`
 	Name        string         `json:"name"`
+	CategoryID  uuid.UUID      `json:"category_id"`
 	Description string         `json:"description"`
 	Price       pgtype.Numeric `json:"price"`
 	Discount    pgtype.Numeric `json:"discount"`
@@ -46,6 +49,7 @@ func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (P
 	row := q.db.QueryRow(ctx, createProduct,
 		arg.VendorID,
 		arg.Name,
+		arg.CategoryID,
 		arg.Description,
 		arg.Price,
 		arg.Discount,
@@ -57,6 +61,7 @@ func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (P
 		&i.ProductID,
 		&i.VendorID,
 		&i.Name,
+		&i.CategoryID,
 		&i.Description,
 		&i.Price,
 		&i.Discount,
@@ -82,7 +87,7 @@ func (q *Queries) DeletProduct(ctx context.Context, productID string) error {
 
 const getProductByProductId = `-- name: GetProductByProductId :one
 SELECT 
-    product_id, vendor_id, name, description, price, discount, stock, status, created_at, updated_at 
+    product_id, vendor_id, name, category_id, description, price, discount, stock, status, created_at, updated_at 
 FROM 
     products 
 WHERE 
@@ -96,6 +101,7 @@ func (q *Queries) GetProductByProductId(ctx context.Context, productID string) (
 		&i.ProductID,
 		&i.VendorID,
 		&i.Name,
+		&i.CategoryID,
 		&i.Description,
 		&i.Price,
 		&i.Discount,
@@ -109,7 +115,7 @@ func (q *Queries) GetProductByProductId(ctx context.Context, productID string) (
 
 const getProductByVendorID = `-- name: GetProductByVendorID :many
 SELECT
-    product_id, vendor_id, name, description, price, discount, stock, status, created_at, updated_at
+    product_id, vendor_id, name, category_id, description, price, discount, stock, status, created_at, updated_at
 FROM 
     products 
 WHERE 
@@ -129,6 +135,7 @@ func (q *Queries) GetProductByVendorID(ctx context.Context, vendorID uuid.UUID) 
 			&i.ProductID,
 			&i.VendorID,
 			&i.Name,
+			&i.CategoryID,
 			&i.Description,
 			&i.Price,
 			&i.Discount,
@@ -151,19 +158,21 @@ const updateProduct = `-- name: UpdateProduct :one
 UPDATE products
 SET
     name = COALESCE($2,name),
-    description = COALESCE($3,description),
-    price = COALESCE($4,price),
-    discount = COALESCE($5,discount),
-    stock = COALESCE($6,stock),
-    status = COALESCE($7,status),
+    category_id = COALESCE($3,category_id),
+    description = COALESCE($4,description),
+    price = COALESCE($5,price),
+    discount = COALESCE($6,discount),
+    stock = COALESCE($7,stock),
+    status = COALESCE($8,status),
     updated_at = NOW() 
 WHERE
-    product_id = $1 RETURNING product_id, vendor_id, name, description, price, discount, stock, status, created_at, updated_at
+    product_id = $1 RETURNING product_id, vendor_id, name, category_id, description, price, discount, stock, status, created_at, updated_at
 `
 
 type UpdateProductParams struct {
 	ProductID   string         `json:"product_id"`
 	Name        string         `json:"name"`
+	CategoryID  uuid.UUID      `json:"category_id"`
 	Description string         `json:"description"`
 	Price       pgtype.Numeric `json:"price"`
 	Discount    pgtype.Numeric `json:"discount"`
@@ -175,6 +184,7 @@ func (q *Queries) UpdateProduct(ctx context.Context, arg UpdateProductParams) (P
 	row := q.db.QueryRow(ctx, updateProduct,
 		arg.ProductID,
 		arg.Name,
+		arg.CategoryID,
 		arg.Description,
 		arg.Price,
 		arg.Discount,
@@ -186,6 +196,7 @@ func (q *Queries) UpdateProduct(ctx context.Context, arg UpdateProductParams) (P
 		&i.ProductID,
 		&i.VendorID,
 		&i.Name,
+		&i.CategoryID,
 		&i.Description,
 		&i.Price,
 		&i.Discount,

@@ -2,6 +2,7 @@
 INSERT INTO products (
     vendor_id,
     name,
+    category_id,
     description,
     price,
     discount,
@@ -14,7 +15,8 @@ INSERT INTO products (
     $4,
     $5,
     $6,
-    $7
+    $7,
+    $8
 ) RETURNING *;
 
 -- name: GetProductByProductId :one
@@ -37,11 +39,12 @@ WHERE
 UPDATE products
 SET
     name = COALESCE($2,name),
-    description = COALESCE($3,description),
-    price = COALESCE($4,price),
-    discount = COALESCE($5,discount),
-    stock = COALESCE($6,stock),
-    status = COALESCE($7,status),
+    category_id = COALESCE($3,category_id),
+    description = COALESCE($4,description),
+    price = COALESCE($5,price),
+    discount = COALESCE($6,discount),
+    stock = COALESCE($7,stock),
+    status = COALESCE($8,status),
     updated_at = NOW() 
 WHERE
     product_id = $1 RETURNING *;

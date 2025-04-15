@@ -15,17 +15,19 @@ func CreateRandomProduct(t *testing.T, vendorID uuid.UUID) Product {
 	data := CreateProductParams{
 		VendorID:    vendorID,
 		Name:        gofakeit.ProductName(),
+		CategoryID:    util.CreateUUID(),
 		Description: gofakeit.ProductDescription(),
-		Price:       util.GenerateRandomNumeric(),
-		Discount:    util.GenerateRandomNumeric(),
-		Stock:       util.GenerateRandomInt32(),
-		Status:      util.GenerateRandomProductStatus(),
+		Price:       util.GenerateNumeric(),
+		Discount:    util.GenerateNumeric(),
+		Stock:       util.GenerateInt32(),
+		Status:      util.GenerateProductStatus(),
 	}
 	product, err := testStore.CreateProduct(context.Background(), data)
 	require.NoError(t, err)
 	require.NotEmpty(t, product)
 	require.Equal(t, product.VendorID, vendorID)
 	require.Equal(t, product.Name, data.Name)
+	require.Equal(t, product.CategoryID, data.CategoryID)
 	require.Equal(t, product.Description, data.Description)
 	require.Equal(t, product.Price, data.Price)
 	require.Equal(t, product.Discount, data.Discount)
@@ -60,6 +62,7 @@ func TestGetProductByProductId(t *testing.T) {
 	require.Equal(t, p.ProductID, product.ProductID)
 	require.Equal(t, p.VendorID, product.VendorID)
 	require.Equal(t, p.Name, product.Name)
+	require.Equal(t, p.CategoryID, product.CategoryID)
 	require.Equal(t, p.Description, product.Description)
 	require.Equal(t, p.Price, product.Price)
 	require.Equal(t, p.Discount, product.Discount)
@@ -86,11 +89,12 @@ func TestUpdateProduct(t *testing.T) {
 	newData := UpdateProductParams{
 		ProductID:   product.ProductID,
 		Name:        gofakeit.ProductName(),
+		CategoryID:    util.CreateUUID(),
 		Description: gofakeit.ProductDescription(),
-		Price:       util.GenerateRandomNumeric(),
-		Discount:    util.GenerateRandomNumeric(),
-		Stock:       util.GenerateRandomInt32(),
-		Status:      util.GenerateRandomProductStatus(),
+		Price:       util.GenerateNumeric(),
+		Discount:    util.GenerateNumeric(),
+		Stock:       util.GenerateInt32(),
+		Status:      util.GenerateProductStatus(),
 	}
 
 	newP, err := testStore.UpdateProduct(context.Background(), newData)
@@ -99,6 +103,7 @@ func TestUpdateProduct(t *testing.T) {
 	require.Equal(t, newP.ProductID, product.ProductID)
 	require.Equal(t, newP.VendorID, product.VendorID)
 	require.NotEqual(t, newP.Name, product.Name)
+	require.NotEqual(t, newP.CategoryID, product.CategoryID)
 	require.NotEqual(t, newP.Description, product.Description)
 	require.NotEqual(t, newP.Price, product.Price)
 	require.NotEqual(t, newP.Discount, product.Discount)

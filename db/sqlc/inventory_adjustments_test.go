@@ -15,8 +15,8 @@ func CreateRandomInventoryAdjustments(t *testing.T, productID, pvID string) Inve
 		AdjustmentID:   util.CreateUUID(),
 		ProductID:      productID,
 		PvID:           pvID,
-		AdjustmentType: util.GenerateRandomAdjustmentTypes(),
-		Quantity:       util.GenerateRandomInt32(),
+		AdjustmentType: util.GenerateAdjustmentTypes(),
+		Quantity:       util.GenerateInt32(),
 		Reason:         gofakeit.Digit(),
 	}
 
@@ -76,7 +76,7 @@ func TestGetInventoryAdjustmentsByType(t *testing.T) {
 		CreateRandomInventoryAdjustments(t, product.ProductID, pv.PvID)
 	}
 
-	got, err := testStore.GetInventoryAdjustmentsByType(context.Background(), util.GenerateRandomAdjustmentTypes())
+	got, err := testStore.GetInventoryAdjustmentsByType(context.Background(), util.GenerateAdjustmentTypes())
 	require.NoError(t, err)
 	require.NotEmpty(t, got)
 	require.GreaterOrEqual(t, len(got), 1)

@@ -14,7 +14,7 @@ func CreateRandomInventoryLevels(t *testing.T, productID, pvID string) Inventory
 		InventoryID: util.CreateUUID(),
 		ProductID:   productID,
 		PvID:        pvID,
-		Stock:       util.GenerateRandomInt32(),
+		Stock:       util.GenerateInt32(),
 	}
 
 	inventoryLevel, err := testStore.CreateInventoryLevels(context.Background(), data)
@@ -71,7 +71,7 @@ func TestUpdateInventoryLevel(t *testing.T) {
 
 	newData := UpdateInventoryLevelParams{
 		InventoryID: iv.InventoryID,
-		Stock:       util.GenerateRandomInt32(),
+		Stock:       util.GenerateInt32(),
 	}
 
 	updatedIV, err := testStore.UpdateInventoryLevel(context.Background(), newData)

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/api/annotations.proto";
+
+option go_package = "Product/pb/products";
+
+message Product {
+    int32 product_id = 1;
+    string vendor_id = 2;
+    string name = 3;
+    string description = 4;
+    double price = 5;
+    double discount = 6;
+    int32 stock = 7;
+    string 
+
+}

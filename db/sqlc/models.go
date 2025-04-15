@@ -31,6 +31,7 @@ type Product struct {
 	ProductID   string           `json:"product_id"`
 	VendorID    uuid.UUID        `json:"vendor_id"`
 	Name        string           `json:"name"`
+	CategoryID  uuid.UUID        `json:"category_id"`
 	Description string           `json:"description"`
 	Price       pgtype.Numeric   `json:"price"`
 	Discount    pgtype.Numeric   `json:"discount"`

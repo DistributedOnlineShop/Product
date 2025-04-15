@@ -16,8 +16,8 @@ func CreateRandomProductImage(t *testing.T, productID, pvID string) ProductImage
 		ProductID: productID,
 		PvID:      pvID,
 		ImageUrl:  "https://example.com/image.jpg",
-		Position:  util.GenerateRandomInt32(),
-		IsPrimary: util.GenerateRandomBool(),
+		Position:  util.GenerateInt32(),
+		IsPrimary: util.GenerateBool(),
 	}
 
 	pi, err := testStore.CreateProductImage(context.Background(), data)
@@ -100,7 +100,7 @@ func TestGetProductImagePrimary(t *testing.T) {
 		CreateRandomProductImage(t, product.ProductID, pv.PvID)
 	}
 
-	images, err := testStore.GetProductImagePrimary(context.Background(), pgtype.Bool{Bool: util.GenerateRandomBool().Bool, Valid: true})
+	images, err := testStore.GetProductImagePrimary(context.Background(), pgtype.Bool{Bool: util.GenerateBool().Bool, Valid: true})
 	require.NoError(t, err)
 	require.NotEmpty(t, images)
 	require.GreaterOrEqual(t, len(images), 2)
@@ -115,8 +115,8 @@ func TestUpdateProductImage(t *testing.T) {
 	newData := UpdateProductImageParams{
 		PiID:      pi.PiID,
 		ImageUrl:  "https://example.com/new_image2.jpg",
-		Position:  util.GenerateRandomInt32(),
-		IsPrimary: util.GenerateRandomBool(),
+		Position:  util.GenerateInt32(),
+		IsPrimary: util.GenerateBool(),
 	}
 
 	newImage, err := testStore.UpdateProductImage(context.Background(), newData)

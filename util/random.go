@@ -10,21 +10,21 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func GenerateRandomEmail() pgtype.Text {
+func GenerateEmail() pgtype.Text {
 	return pgtype.Text{
 		String: gofakeit.Email(),
 		Valid:  true,
 	}
 }
 
-func GenerateRandomPhone() pgtype.Text {
+func GeneratePhone() pgtype.Text {
 	return pgtype.Text{
 		String: gofakeit.Phone(),
 		Valid:  true,
 	}
 }
 
-func GenerateRandomDate() pgtype.Timestamp {
+func GenerateDate() pgtype.Timestamp {
 	daysOffset := rand.IntN(365) - 180
 	return pgtype.Timestamp{
 		Time:  time.Now().Add(time.Duration(daysOffset) * 24 * time.Hour),
@@ -32,7 +32,7 @@ func GenerateRandomDate() pgtype.Timestamp {
 	}
 }
 
-func GenerateRandomNumeric() pgtype.Numeric {
+func GenerateNumeric() pgtype.Numeric {
 	intPart := rand.IntN(100000)
 	fracPart := rand.IntN(100)
 	value := int64(intPart) + int64(fracPart)/100.0
@@ -44,7 +44,7 @@ func GenerateRandomNumeric() pgtype.Numeric {
 	}
 }
 
-func GenerateRandomStatus() string {
+func GenerateStatus() string {
 	statuses := []string{
 		"ACTIVE",
 		"INACTIVE",
@@ -56,7 +56,7 @@ func GenerateRandomStatus() string {
 	return statuses[rand.IntN(len(statuses))]
 }
 
-func GenerateRandomVendorCategory() []string {
+func GenerateVendorCategory() []string {
 	categories := []string{
 		"ELECTRONICS",
 		"APPAREL & ACCESSORIES",
@@ -82,11 +82,11 @@ func GenerateRandomVendorCategory() []string {
 	}
 }
 
-func GenerateRandomInt32() int32 {
+func GenerateInt32() int32 {
 	return rand.Int32N(1000) + 1
 }
 
-func GenerateRandomProductStatus() string {
+func GenerateProductStatus() string {
 	statuses := []string{
 		"ACTIVE",
 		"INACTIVE",
@@ -100,7 +100,7 @@ func GenerateRandomProductStatus() string {
 	return statuses[rand.IntN(len(statuses))]
 }
 
-func GenerateRandomSKU() pgtype.Text {
+func GenerateSKU() pgtype.Text {
 	colors := []string{"RED", "BLUE", "GREEN", "BLACK", "WHITE"}
 	sizes := []string{"S", "M", "L", "XL", "XXL"}
 	materials := []string{"COTTON", "POLYESTER", "LEATHER"}
@@ -117,19 +117,19 @@ func GenerateRandomSKU() pgtype.Text {
 	}
 }
 
-func GenerateRandomPVStatus() string {
+func GeneratePVStatus() string {
 	statuses := []string{"ACTIVE", "INACTIVE", "OUT OF STOCK", "PENDING", "DISCONTINUED"}
 	return statuses[rand.IntN(len(statuses))]
 }
 
-func GenerateRandomBool() pgtype.Bool {
+func GenerateBool() pgtype.Bool {
 	return pgtype.Bool{
 		Bool:  gofakeit.Bool(),
 		Valid: true,
 	}
 }
 
-func GenerateRandomAdjustmentTypes() string {
+func GenerateAdjustmentTypes() string {
 	stockAdjustmentTypes := []string{
 		"MANUAL_ADJUSTMENT",
 		"STOCK_TAKE",

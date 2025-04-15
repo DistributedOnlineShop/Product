@@ -15,10 +15,10 @@ func CreateRandomVendors(t *testing.T) Vendor {
 		VendorID:    util.CreateUUID(),
 		VendorName:  gofakeit.Company(),
 		ContactName: gofakeit.Name(),
-		ProductType: util.GenerateRandomVendorCategory(),
-		Email:       util.GenerateRandomEmail(),
-		Phone:       util.GenerateRandomPhone(),
-		Status:      util.GenerateRandomStatus(),
+		ProductType: util.GenerateVendorCategory(),
+		Email:       util.GenerateEmail(),
+		Phone:       util.GeneratePhone(),
+		Status:      util.GenerateStatus(),
 	}
 
 	vendor, err := testStore.CreateVendors(context.Background(), data)
@@ -57,9 +57,9 @@ func TestUpdateVendor(t *testing.T) {
 		VendorID:    vendor.VendorID,
 		VendorName:  gofakeit.Company(),
 		ContactName: gofakeit.Name(),
-		Email:       util.GenerateRandomEmail(),
-		Phone:       util.GenerateRandomPhone(),
-		Status:      util.GenerateRandomStatus(),
+		Email:       util.GenerateEmail(),
+		Phone:       util.GeneratePhone(),
+		Status:      util.GenerateStatus(),
 	}
 
 	updatedVendor, err := testStore.UpdateVendor(context.Background(), newData)

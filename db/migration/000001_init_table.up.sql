@@ -2,6 +2,7 @@ CREATE TABLE "products" (
   "product_id" VARCHAR(12) PRIMARY KEY NOT NULL,
   "vendor_id" UUID NOT NULL,
   "name" VARCHAR NOT NULL,
+  "category_id" UUID NOT NULL,
   "description" TEXT NOT NULL,
   "price" DECIMAL(10,2) NOT NULL,
   "discount" DECIMAL(10,2) NOT NULL,

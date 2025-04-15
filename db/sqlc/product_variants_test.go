@@ -17,11 +17,11 @@ func CreateRandomProductVariants(t *testing.T, productID string) ProductVariant 
 
 	data := CreateProductVariantsParams{
 		ProductID:  productID,
-		Sku:        util.GenerateRandomSKU(),
-		Price:      util.GenerateRandomNumeric(),
-		Stock:      util.GenerateRandomInt32(),
+		Sku:        util.GenerateSKU(),
+		Price:      util.GenerateNumeric(),
+		Stock:      util.GenerateInt32(),
 		Attributes: json,
-		Status:     util.GenerateRandomPVStatus(),
+		Status:     util.GeneratePVStatus(),
 	}
 
 	pv, err := testStore.CreateProductVariants(context.Background(), data)
@@ -99,10 +99,10 @@ func TestUpdateProductVariant(t *testing.T) {
 
 	newData := UpdateProductVariantParams{
 		PvID:       pv.PvID,
-		Price:      util.GenerateRandomNumeric(),
-		Stock:      util.GenerateRandomInt32(),
+		Price:      util.GenerateNumeric(),
+		Stock:      util.GenerateInt32(),
 		Attributes: json,
-		Status:     util.GenerateRandomPVStatus(),
+		Status:     util.GeneratePVStatus(),
 	}
 
 	newPV, err := testStore.UpdateProductVariant(context.Background(), newData)
